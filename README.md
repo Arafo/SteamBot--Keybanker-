@@ -51,7 +51,7 @@ The bot will also allow you to overpay for keys with metal - it will first tell 
 
 ### Keybanking - closing thoughts ###
 
-I've also made modifications here and there to the original SteamBot wrapper. For example, I've added `EPersonaState.Trade`, along with a `RemoveAllFriends()` function in `SteamFriends.cs`.
+I've also made modifications here and there to the original SteamBot wrapper. For example, I've added `EPersonaState.Trade`, along with a `RemoveAllFriends()` function in `SteamFriends.cs`. However, I had to remove these because I forgot the SteamKit submodule is downloaded seperately.
 
 ## Info ##
 

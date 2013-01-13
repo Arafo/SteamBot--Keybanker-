@@ -30,7 +30,7 @@ namespace SteamBot
         public KeyUserHandler(Bot bot, SteamID sid) : base(bot, sid)
         {
             // Doesn't really work since the bot sets itself back to "Online" upon successfully loggin in
-            Bot.SteamFriends.SetPersonaState(EPersonaState.Trade);
+            Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
         }
 
         public override bool OnFriendAdd()
@@ -120,7 +120,7 @@ namespace SteamBot
                         Bot.SteamFriends.JoinChat(chatid);
                         Bot.SteamFriends.SendChatMessage(OtherSID, type, "Joining chat: " + chatid.ConvertToUInt64().ToString());
                         InGroupChat = true;
-                        Bot.SteamFriends.SetPersonaState(EPersonaState.Trade);
+                        Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
                         Bot.log.Success("Joining chat: " + chatid.ConvertToUInt64().ToString());
                     }
                 }
@@ -237,8 +237,9 @@ namespace SteamBot
                 }
                 else if (message == ".removeall")
                 {
-                    Bot.SteamFriends.RemoveAllFriends();
-                    Bot.log.Warn("Removed all friends from my friends list.");
+                    // Commenting this out because RemoveAllFriends is a custom function I wrote.
+                    //Bot.SteamFriends.RemoveAllFriends();
+                    //Bot.log.Warn("Removed all friends from my friends list.");
                 }
             }
             else
@@ -265,7 +266,7 @@ namespace SteamBot
                 Bot.SteamFriends.SendChatMessage(OtherSID, EChatEntryType.ChatMsg, "Did something go horribly wrong? If you have found a bug or something that you think wasn't supposed to happen, please leave a message on my creator's profile! http://steamcommunity.com/id/waylaidwanderer/");
                 HasErrorRun = true;
             }
-            Bot.SteamFriends.SetPersonaState(EPersonaState.Trade);
+            Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
         }
 
         public override void OnTradeTimeout()
@@ -273,7 +274,7 @@ namespace SteamBot
             Bot.SteamFriends.SendChatMessage(OtherSID, EChatEntryType.ChatMsg,
                                               "Sorry, but you were either AFK or took too long and the trade was canceled.");
             Bot.log.Info("User was kicked because he was AFK.");
-            Bot.SteamFriends.SetPersonaState(EPersonaState.Trade);
+            Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
         }
 
         public override void OnTradeInit()
@@ -308,7 +309,7 @@ namespace SteamBot
                 Trade.CancelTrade();
                 Bot.SteamFriends.SendChatMessage(OtherSID, EChatEntryType.ChatMsg, "Please stop messing around. I am used for buying and selling keys only. I can only accept metal or keys as payment.");
                 Bot.log.Warn("Booted user for messing around.");
-                Bot.SteamFriends.SetPersonaState(EPersonaState.Trade);
+                Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
             }
             else if (item.Defindex == 5000)
             {
@@ -629,12 +630,12 @@ namespace SteamBot
                 {
                     Log.Success("Trade was successful!");
                     Bot.SteamFriends.SendChatMessage(OtherSID, EChatEntryType.ChatMsg, "Thanks for a successful trade! Please leave a +rep on my profile if you'd like. :) You're the best!");
-                    Bot.SteamFriends.SetPersonaState(EPersonaState.Trade);
+                    Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
                 }
                 else
                 {
                     Log.Warn("Trade might have failed.");
-                    Bot.SteamFriends.SetPersonaState(EPersonaState.Trade);
+                    Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
                 }
             }
             OnTradeClose();
@@ -642,7 +643,7 @@ namespace SteamBot
 
         public override void OnTradeClose()
         {
-            Bot.SteamFriends.SetPersonaState(EPersonaState.Trade);
+            Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
             base.OnTradeClose();
         }
 
