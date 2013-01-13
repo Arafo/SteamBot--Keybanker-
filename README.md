@@ -1,3 +1,48 @@
+## Keybanking Bot Instructions ##
+
+This keybanking bot is the first one made. I finished coding it on 12/12/12 (before scrap.tf!), and since then it has only gotten better. I am releasing the source here for anyone to use due to the fact that another group (who had previously agreed not to share it) has taken my code and bot and is redistributing it without permission or proper credit.
+
+Below this section is the original readme for SteamBot by Jessecar96.
+
+### Commands ###
+
+I've written some commands for the bot so that I wouldn't have to keep recompiling and run the bot with new parameters. If you need to change other parameters like certain things the bot says, you will need to recompile the bot yourself.
+
+These commands are all typed into chat, unless otherwise specified.
+
+#### `.buy xx` ####
+You can change the price that the bot buys keys for with this command. The prices are calculated in scraps, so `.buy 29` would be `29 / 9 = 3.22 ref`.
+
+#### `.sell xx` ####
+Change the price the bot sells keys at. The prices are calculated in scraps, so `.sell 30` would be `30 / 9 = 3.33 ref`.
+
+#### `.join groupID` ####
+Tell the bot to join a group's chatroom. e.g. `.join 103582791433582049` or `.join cts`. The latter is coded into the bot so you will need to change it if you want your own shortcuts.
+
+#### `.leave groupID` ####
+Tell the bot to leave a group's chatroom. e.g. `.leave 103582791433582049` or `.leave cts`. The latter is coded into the bot so you will need to change it if you want your own shortcuts.
+
+#### `.gmessage string` ####
+Send a message to the last chatroom that the bot joined. For example typing `.gmessage Hello!` into your bot's chat will make it say `Hello!` into the group's chatroom.
+
+#### `.advertise` ####
+This will advertise a predefined message into the last group chatroom that the bot joined, changeable only via the bot's code. Currently it tells the chatroom that it is buying and selling keys at whatever price you set it at every 2 minutes and 50 seconds. This interval can only be changed from within the bot's code, of which its current iteration is `static int TimerInterval = 170000;`.
+
+#### `.canceltrade` ####
+Cancels the bot's trade and sends the user a warning message. Occasionally the message will be sent to YOU instead of the current user. I haven't fixed that yet.
+
+#### `.removeall` ####
+Removes everyone from the bot's friends list. Useful if it is full.
+
+### Trade Commands ###
+
+These commands must be typed into the trade window and not the chat window.
+
+#### `donate` ####
+This tells the bot you want to donate keys/metal. Useful for replenishing its stock.
+
+The bot will also allow you to overpay for keys with metal - it will first tell you how much you will be overpaying by, and then tell you how much you need to add for another key. If you choose to type `continue`, it will note that you are overpaying.
+
 ## Info ##
 
 **BEFORE YOU GET STARTED:** This bot requires you use git to download the bot.  **Downloading the zip will not work!**  It doesn't work because the bot uses git submodules, which are not included with the zip download.
