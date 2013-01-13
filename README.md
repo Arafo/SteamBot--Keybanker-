@@ -47,6 +47,10 @@ This tells the bot you want to donate keys/metal. Useful for replenishing its st
 
 The bot will also allow you to overpay for keys with metal - it will first tell you how much you will be overpaying by, and then tell you how much you need to add for another key. If you choose to type `continue`, it will note that you are overpaying.
 
+### Keybanking - closing thoughts ###
+
+I've also made modifications here and there to the original SteamBot wrapper. For example, I've added `EPersonaState.Trade`, along with a `RemoveAllFriends()` function in `SteamFriends.cs`.
+
 ## Info ##
 
 **BEFORE YOU GET STARTED:** This bot requires you use git to download the bot.  **Downloading the zip will not work!**  It doesn't work because the bot uses git submodules, which are not included with the zip download.
