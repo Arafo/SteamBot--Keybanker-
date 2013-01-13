@@ -263,7 +263,7 @@ namespace SteamBot
             Bot.log.Warn(error);
             if (!HasErrorRun)
             {
-                Bot.SteamFriends.SendChatMessage(OtherSID, EChatEntryType.ChatMsg, "Did something go horribly wrong? If you have found a bug or something that you think wasn't supposed to happen, please leave a message on my creator's profile! http://steamcommunity.com/id/waylaidwanderer/");
+                Bot.SteamFriends.SendChatMessage(OtherSID, EChatEntryType.ChatMsg, "Did something go horribly wrong? If you have found a bug or something that you think wasn't supposed to happen, please leave a message on my owner's profile!");
                 HasErrorRun = true;
             }
             Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
@@ -281,7 +281,7 @@ namespace SteamBot
         {
             ReInit();
             TradeCountInventory(true);
-            Trade.SendMessage("Welcome to the CTS community's public keybanking bot (v" + BotVersion + "). To use this bot, just add your metal or keys, and the bot will automatically add keys or metal when you have put up enough.");
+            Trade.SendMessage("Welcome to the CTS community's public keybanking bot (v" + BotVersion + "). This bot was coded by This bot was coded by http://steamcommunity.com/id/waylaidwanderer. To use this bot, just add your metal or keys, and the bot will automatically add keys or metal when you have put up enough.");
             if (InventoryKeys == 0)
             {
                 Trade.SendMessage("I don't have any keys to sell right now! I am currently buying keys for " + String.Format("{0:0.00}", (BuyPricePerKey / 9.0)) + " ref.");
@@ -630,6 +630,7 @@ namespace SteamBot
                 {
                     Log.Success("Trade was successful!");
                     Bot.SteamFriends.SendChatMessage(OtherSID, EChatEntryType.ChatMsg, "Thanks for a successful trade! Please leave a +rep on my profile if you'd like. :) You're the best!");
+                    Bot.SteamFriends.SendChatMessage(OtherSID, EChatEntryType.ChatMsg, "This bot was coded by http://steamcommunity.com/id/waylaidwanderer");
                     Bot.SteamFriends.SetPersonaState(EPersonaState.Online);
                 }
                 else
