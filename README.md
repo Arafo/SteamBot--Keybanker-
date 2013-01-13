@@ -4,6 +4,10 @@ This keybanking bot is the first one made. I finished coding it on 12/12/12 (bef
 
 Below this section is the original readme for SteamBot by Jessecar96.
 
+### Setup ###
+
+In `settings.json` you will need to change the `BotControlClass` parameter to `KeyUserHandler` instead of the default `SimpleUserHandler`, if it has not been already done.
+
 ### Commands ###
 
 I've written some commands for the bot so that I wouldn't have to keep recompiling and run the bot with new parameters. If you need to change other parameters like certain things the bot says, you will need to recompile the bot yourself.
