@@ -13,7 +13,6 @@ namespace SteamBot
 {
     public class Bot
     {
-        public string BotControlClass;
         // If the bot is logged in fully or not.  This is only set
         // when it is.
         public bool IsLoggedIn = false;
@@ -27,6 +26,7 @@ namespace SteamBot
 
         // A list of SteamIDs that this bot recognizes as admins.
         public ulong[] Admins;
+
         public SteamFriends SteamFriends;
         public SteamClient SteamClient;
         public SteamTrading SteamTrade;
@@ -66,8 +66,8 @@ namespace SteamBot
         // The number, in milliseconds, between polls for the trade.
         int TradePollingInterval;
 
-        string sessionId;
-        string token;
+        public string sessionId;
+        public string token;
 
         SteamUser.LogOnDetails logOnDetails;
 
@@ -80,6 +80,7 @@ namespace SteamBot
                 Username = config.Username,
                 Password = config.Password
             };
+
             DisplayName  = config.DisplayName;
             ChatResponse = config.ChatResponse;
             MaximumTradeTime = config.MaximumTradeTime;
@@ -99,7 +100,6 @@ namespace SteamBot
             }
             log          = new Log (config.LogFile, this.DisplayName, LogLevel);
             CreateHandler = handlerCreator;
-            BotControlClass = config.BotControlClass;
 
             // Hacking around https
             ServicePointManager.ServerCertificateValidationCallback += SteamWeb.ValidateRemoteCertificate;
@@ -111,7 +111,7 @@ namespace SteamBot
             SteamFriends = SteamClient.GetHandler<SteamFriends>();
             log.Info ("Connecting...");
             SteamClient.Connect();
-            
+
             Thread CallbackThread = new Thread(() => // Callback Handling
             {
                 while (true)
@@ -120,8 +120,8 @@ namespace SteamBot
 
                     HandleSteamMessage (msg);
                 }
-            }); 
-            
+            });
+
             CallbackThread.Start();
             log.Success ("Done Loading Bot!");
             CallbackThread.Join();

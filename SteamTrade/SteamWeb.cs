@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Web.SessionState;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
 using System.Security.Cryptography.X509Certificates;
@@ -14,7 +15,6 @@ namespace SteamTrade
 {
     public class SteamWeb
     {
-
         public static string Fetch (string url, string method, NameValueCollection data = null, CookieContainer cookies = null, bool ajax = true)
         {
             HttpWebResponse response = Request (url, method, data, cookies, ajax);
@@ -33,7 +33,6 @@ namespace SteamTrade
             request.Host = "steamcommunity.com";
             request.UserAgent = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.47 Safari/536.11";
             request.Referer = "http://steamcommunity.com/trade/1";
-
             if (ajax)
             {
                 request.Headers.Add ("X-Requested-With", "XMLHttpRequest");
@@ -141,12 +140,11 @@ namespace SteamTrade
                 data.Add ("rsatimestamp", time);
 
                 HttpWebResponse webResponse = Request ("https://steamcommunity.com/login/dologin/", "POST", data, null, false);
-
                 StreamReader reader = new StreamReader (webResponse.GetResponseStream ());
                 string json = reader.ReadToEnd ();
-
+                Console.WriteLine(json);
                 loginJson = JsonConvert.DeserializeObject<SteamResult> (json);
-
+                
                 cookies = webResponse.Cookies;
             } while (loginJson.captcha_needed == true || loginJson.emailauth_needed == true);
 
@@ -159,6 +157,7 @@ namespace SteamTrade
                     c.Add (cookie);
                 }
                 SubmitCookies (c);
+                Console.WriteLine("Successfully logged in.");
                 return cookies;
             }
             else
@@ -215,7 +214,6 @@ namespace SteamTrade
                 }
                 
                 token = authResult ["token"].AsString ();
-                
                 return true;
             }
         }
@@ -227,7 +225,6 @@ namespace SteamTrade
             w.Method = "POST";
             w.ContentType = "application/x-www-form-urlencoded";
             w.CookieContainer = cookies;
-
             w.GetResponse ().Close ();
             return;
         }

@@ -186,10 +186,16 @@ namespace SteamTrade
             bool ok = CancelTradeWebCmd ();
 
             if (!ok)
-                throw new TradeException ("The Web command to cancel the trade failed");
-            
+            {
+                if (OnError != null)
+                {
+                    //OnError("The web command to cancel the trade failed");
+                }
+            }
+            // throw new TradeException ("The Web command to cancel the trade failed");
+
             if (OnClose != null)
-                OnClose ();
+                OnClose();
 
             return true;
         }
@@ -207,7 +213,14 @@ namespace SteamTrade
             bool ok = AddItemWebCmd (itemid, slot);
 
             if (!ok)
-                throw new TradeException ("The Web command to add the Item failed");
+            {
+                if (OnError != null)
+                {
+                    OnError("The web command to add the item failed");
+                    CancelTrade();
+                }
+            }
+            //throw new TradeException ("The Web command to add the Item failed");
 
             myOfferedItems [slot] = itemid;
 
@@ -226,7 +239,7 @@ namespace SteamTrade
             List<Inventory.Item> items = MyInventory.GetItemsByDefindex (defindex);
             foreach (Inventory.Item item in items)
             {
-                if (item != null && !myOfferedItems.ContainsValue(item.Id) && !item.IsNotTradeable)
+                if (!myOfferedItems.ContainsValue (item.Id))
                 {
                     return AddItem (item.Id);
                 }
@@ -249,7 +262,7 @@ namespace SteamTrade
 
             foreach (Inventory.Item item in items)
             {
-                if (item != null && !myOfferedItems.ContainsValue(item.Id) && !item.IsNotTradeable)
+                if (item != null && !myOfferedItems.ContainsValue (item.Id))
                 {
                     bool success = AddItem (item.Id);
 
@@ -277,7 +290,14 @@ namespace SteamTrade
             bool ok = RemoveItemWebCmd (itemid, slot.Value);
 
             if (!ok)
-                throw new TradeException ("The web command to remove the item failed.");
+            {
+                if (OnError != null)
+                {
+                    OnError("The web command to remove the item failed.");
+                    CancelTrade();
+                }
+            }
+            //throw new TradeException ("The web command to remove the item failed.");
 
             myOfferedItems.Remove (slot.Value);
 
@@ -340,7 +360,13 @@ namespace SteamTrade
             bool ok = SendMessageWebCmd (msg);
 
             if (!ok)
-                throw new TradeException ("The web command to send the trade message failed.");
+            {
+                if (OnError != null)
+                {
+                    OnError("The web command to send the trade message failed.");
+                }
+            }
+            //throw new TradeException ("The web command to send the trade message failed.");
 
             return true;
         }
@@ -356,7 +382,14 @@ namespace SteamTrade
             bool ok = SetReadyWebCmd (ready);
 
             if (!ok)
-                throw new TradeException ("The web command to set trade ready state failed.");
+            {
+                if (OnError != null)
+                {
+                    OnError("The web command to set trade ready state failed.");
+                    CancelTrade();
+                }
+            }
+            //throw new TradeException ("The web command to set trade ready state failed.");
 
             return true;
         }
@@ -372,7 +405,14 @@ namespace SteamTrade
             bool ok = AcceptTradeWebCmd ();
 
             if (!ok)
-                throw new TradeException ("The web command to accept the trade failed.");
+            {
+                if (OnError != null)
+                {
+                    OnError("The web command to accept the trade failed.");
+                    CancelTrade();
+                }
+            }
+            //throw new TradeException ("The web command to accept the trade failed.");
 
             return true;
         }
@@ -400,7 +440,14 @@ namespace SteamTrade
             StatusObj status = GetStatus ();
 
             if (status == null)
-                throw new TradeException ("The web command to get the trade status failed.");
+            {
+                if (OnError != null)
+                {
+                    OnError("The web command to get the trade status failed.");
+                    CancelTrade();
+                }
+            }
+            //throw new TradeException ("The web command to get the trade status failed.");
 
             // I've noticed this when the trade is cancelled.
             if (status.trade_status == 3)
@@ -572,25 +619,51 @@ namespace SteamTrade
             // the correct change for the given item.
 
             // check if the correct item was added
-            if (wasAdded && !myOfferedItems.ContainsValue (itemid))
-                throw new TradeException ("Steam Trade had an invalid item added: " + itemid);
+            if (wasAdded && !myOfferedItems.ContainsValue(itemid))
+            {
+                if (OnError != null)
+                {
+                    OnError("Steam Trade had an invalid item added: " + itemid);
+                    CancelTrade();
+                }
+            }
+            //throw new TradeException ("Steam Trade had an invalid item added: " + itemid);
 
             // check if the correct item was removed
-            if (!wasAdded && myOfferedItems.ContainsValue (itemid))
-                throw new TradeException ("Steam Trade had an invalid item removed: " + itemid);
+            if (!wasAdded && myOfferedItems.ContainsValue(itemid))
+            {
+                if (OnError != null)
+                {
+                    OnError("Steam Trade had an invalid item removed: " + itemid);
+                    CancelTrade();
+                }
+            }
+            //throw new TradeException("Steam Trade had an invalid item removed: " + itemid);
         }
 
         void ValidateLocalTradeItems ()
         {
             if (myOfferedItems.Count != steamMyOfferedItems.Count)
             {
-                throw new TradeException ("Error validating local copy of items in the trade: Count mismatch");
+                if (OnError != null)
+                {
+                    OnError("Error validating local copy of items in the trade: Count mismatch.");
+                    CancelTrade();
+                }
+                //throw new TradeException("Error validating local copy of items in the trade: Count mismatch");
             }
 
             foreach (ulong id in myOfferedItems.Values)
             {
-                if (!steamMyOfferedItems.Contains (id))
-                    throw new TradeException ("Error validating local copy of items in the trade: Item was not in the Steam Copy.");
+                if (!steamMyOfferedItems.Contains(id))
+                {
+                    if (OnError != null)
+                    {
+                        OnError("Error validating local copy of items in the trade: Item was not in the Steam Copy.");
+                        CancelTrade();
+                    }
+                }
+                //throw new TradeException ("Error validating local copy of items in the trade: Item was not in the Steam Copy.");
             }
         }
     }
