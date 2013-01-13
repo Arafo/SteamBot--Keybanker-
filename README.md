@@ -1,6 +1,6 @@
 ## Keybanking Bot Instructions ##
 
-This keybanking bot is the first one made. I finished coding it on 12/12/12 (before scrap.tf!), and since then it has only gotten better. I am releasing the source here for anyone to use due to the fact that another group (who had previously agreed not to share it) has taken my code and bot and is redistributing it without permission or proper credit.
+This keybanking bot is the first of its kind. I finished coding it on 12/12/12 (before scrap.tf) for my Steam Community group http://steamcommunity.com/groups/CTSCommunity and since then it has only gotten better. I am releasing the source here for anyone to use due to the fact that another group (who had previously agreed not to share it) has taken my code and bot and is redistributing it without permission or proper credit.
 
 Below this section is the original readme for SteamBot by Jessecar96.
 
